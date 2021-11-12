@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import {AuthService} from '../Services/auth.service';
+import {TokenStorageService} from '../Services/token-storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm;
   loginError:String="";
   loginSuccess=true;
-  constructor(private Activatedroute:ActivatedRoute,private formBuilder:FormBuilder,private authService:AuthService,private router:Router) {
+  constructor(private tokenService:TokenStorageService,private Activatedroute:ActivatedRoute,private formBuilder:FormBuilder,private authService:AuthService,private router:Router) {
     this.Activatedroute.queryParamMap
     .subscribe(params => { 
       this.signup = params.get('signup')||false;
@@ -36,8 +37,11 @@ export class LoginComponent implements OnInit {
     const password=this.loginForm.get('password')?.value;
     this.authService.login(email,password).subscribe(
       data=>{
-        console.log(data);
+        //console.log(data.token);
+        this.authService.isSignedIn=true;
+        this.authService.signInChange.next(this.authService.isSignedIn);
         this.router.navigate(['home']);
+        this.tokenService.saveToken(data.token);
       },
       err=>{
         this.loginSuccess=false;

@@ -11,6 +11,7 @@ import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import {authInterceptorProviders} from './Helper/auth.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginComponent,
     SignupComponent,
     ErrorComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
